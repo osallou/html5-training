@@ -1,11 +1,17 @@
 # HTML5 + Javascript training materials
 
-in progres...
+in progress...
 
 This training provides progressive exercices for Javascript/HTML5 programming
 learning (basis)
 
 Exercices are mainly based on a sample TODO list managament program
+
+## Requirements
+
+HTTP server (apache, ....)
+
+For server-side, nodejs, mongodb and node mongodb driver (npm install mongodb)
 
 ## Basic Javascript/HTML event /DOM manipulation
 
@@ -13,7 +19,7 @@ click events, add HTML elements to the page with and without JQuery
 
 ## AJAX
 
-Load/Save TODO list on remote server
+Load/Save TODO list on remote server (mongodb)
 
 ## Offline/online/Storage
 
