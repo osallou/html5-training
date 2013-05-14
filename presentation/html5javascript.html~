@@ -39,6 +39,11 @@
 </section>
 
 <section class="slide">
+	<h2>Materials</h2>
+<p>Presentation and exercices are available at: <a href="https://github.com/osallou/html5-training">https://github.com/osallou/html5-training</a></p>
+</section>
+
+<section class="slide">
 	<h1>HTML</h1>
 </section>
 <section class="slide">
@@ -166,7 +171,7 @@ p1=document.createElement("p") ;
 p1.data-something = "test";
 // Set "content"
 p1.innerHTML = "some text";
-div1.insertbefore(p1);
+div1.appendChild(p1);
     </code></pre>
   </li>
   <li>Events
@@ -246,8 +251,59 @@ $(function() {
      // do some stuff
 });
 </code></pre></li>
+<li>Manipulates JQuery objects, not pure DOM elements (but can be converted to/from)</li>
 </ul>
 </section>
+
+<section class="slide">
+    <h2>Easy DOM access</h2>
+    <ul>
+        <li>$("div"): access all <b>div</b> elements</li>
+        <li>$(".myclass"): access all elements with class <i>myclass</i></li>
+        <li>$("#myobject"): access element with id <i>myobject</i></li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Easy DOM manipulation</h2>
+    <p>
+        &lt;input id="myspecificinput" type="text" value="8"/&gt;
+        &lt;div id="myspecificdiv"&gt;
+        &lt;/div&gt;
+    </p>
+    <pre><code>
+var myobj = $("#myspecificdiv");
+// Add some HTML content in my div
+myobj.append("&lt;p&gt;sometext&lt;/p&gt;");
+// Access attributes of my div
+myobj.attr("data-sample","something");
+var myattr = myobj.attr("data-other");
+console.log(myattr);
+// get/set the value of an input form
+var myinput =  $("#myspecificinput");
+myinput.val(10);
+console.log(myinput.val());
+    </code></pre>
+    <p>Results in
+        &lt;input id="myspecificinput" type="text" value="9"/&gt;
+        &lt;div data-sample="something" id="myspecificdiv"&gt;
+        &lt;p&gt; sometext&lt;p&gt;
+        &lt;/div&gt;
+    </p>
+</section>
+
+<section class="slide">
+    <h2>Easy network access</h2>
+
+<pre><code>
+    $.getJSON(myurl, function(data) {
+           // data is already JSON encoded..
+           console.log(data['some_key_in_object']);
+    });
+</code></pre>
+    <p>Warning: URL should be in current domain or a server accepting cross-domain requests (see CORS). </p>
+</section>
+
 
 <section class="slide">
 <h2>Exercise 1</h2>
