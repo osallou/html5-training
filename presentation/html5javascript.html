@@ -140,7 +140,7 @@ function add(a,b) {
 
 <section class="slide">
 <h2>Pure Javascript - Objects</h2>
-<div><i>objectname</i>.prototype.<i>propertyname</i> = <i>expression</i> ;
+<div><i>objectname</i>.prototype.<i>propertyname</i> = <i>expression</i> ; </div>
 <pre><code>
   function MyObjet(name){ // constructor
     this.name=name;                             
@@ -365,11 +365,13 @@ console.log(myinput.val());
     <h2>Offline/Online detection</h2>
     <ul>
         <li>Browsers can detect if we are currently online or offline but...</li>
+        <li>
         <ul>
                 <li>
-                    Detection is browser dependant and does not check a remote server disponibility. It only detects local network availability.
+                    Detection is browser dependant and does not check a remote server connectivity. It only detects local network availability.
                 </li>
         </ul>
+        </li>
         <li>
             Combined with cached application, it gives the possibility to detect status and use local storage in the meanwhile for example.
         </li>
@@ -421,6 +423,7 @@ localStorage.clear();
         <li>Used for Chat, push,...</li>
         <li>Should encode data for transfer (base64, json stringify....)</li>
         <li>Support binary transfer: ws.binaryType = "arraybuffer" or "blob"</li>
+    </ul>
         <pre><code>
 // connect to host:port on "route" /echo
 var ws = new WebSocket("ws://localhost:9000/","echo");
@@ -435,7 +438,6 @@ ws.onclose = function()
 // Send a message
 ws.send("a message");
         </code></pre>
-    </ul>
 </section>
 
 <section class="slide">
@@ -530,15 +532,19 @@ window.addEventListener("message", handleMessage, true);
     Your browser does not support the audio element.
 &lt;/audio&gt;
     </code></pre>
+    <ul>
      <li>Controls:
-     <ul>
-        <li>controls: shows default controls</li>
-        <li>autoplay: Starts playing</li>
-        <li>loop: repeat play </li>
-     </ul>
+          <ul>
+
+            <li>controls: shows default controls</li>
+            <li>autoplay: Starts playing</li>
+            <li>loop: repeat play </li>
+          </ul>
+
      </li>
     <li>Multiple source possible if codec not supported by browser</li>
     <li>Audio preload: none, auto, metadata. For large file allows buffering</li>
+    </ul>
 </section>
 
 <section class="slide">
@@ -655,6 +661,115 @@ window.requestAnimFrame = (function(){
         <li>Not available in all browsers</li>
         <li>Have a look at <a href="http://www.chromeexperiments.com/webgl/">http://www.chromeexperiments.com/webgl/</a></li>
     </ul>
+</section>
+
+<section class="slide">
+    <h2>Drag and drop</h2>
+    <ul>
+        <li>Support for native drag and drop</li>
+        <li>Drag and drop HTMl elements</li>
+        <li>Drag and drop files(images...)</li>
+        <li>Drag from Desktop (managing e.dataTransfer.files on drop target)</li>
+    </ul>
+<pre><code>
+// Make something draggable
+&lt;div draggable="true"&gt;&lt;/div&gt;
+</code></pre>
+
+</section>
+
+<section class="slide">
+    <h2>Drag and drop (next)</h2>
+
+<pre><code>
+var dragSrcEl = null;
+
+function handleDragStart(e) {
+    // current element we drag
+    dragSrcEl = this;
+    // We want to copy the HTML content of the div
+    e.dataTransfer.setData('text/html', this.innerHTML);
+}
+
+function handleDrop(e) {
+    // this / e.target is current target element.
+    if (e.stopPropagation) {
+    e.stopPropagation();
+    // stops the browser from redirecting.
+    }
+    // We put the transfered data in current drop object
+    this.innerHTML = e.dataTransfer.getData('text/html');
+    return false;
+}
+
+myobj = document.getElementById("mydraggable");
+myobj.addEventListener('dragstart', handleDragStart, false);
+myobj.addEventListener('drop', handleDrop, false);
+myobj.addEventListener('dragend', handleDragEnd, false);
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Workers</h2>
+    <ul>
+        <li>Enable time consuming background tasks with real concurrency</li>
+        <li>Should be limited usage (cpu consuming on user desktop)</li>
+        <li>Support data transfer (clone or transfer)</li>
+        <li>Load external or inline script</li>
+    </ul>
+</section>
+<section class="slide">
+    <h2>Workers (next)</h2>
+<pre><code>
+//Create worker from a javascript file
+var worker = new Worker('doWork.js');
+
+worker.addEventListener('message', function(e) {
+    console.log('Worker said: ', e.data);
+}, false);
+
+worker.postMessage('start working please'); // Send data to our worker.
+
+
+// In doWork.js
+// Listen to messages
+self.addEventListener('message', function(e) {
+    // Do your stuff
+    ...
+    // Say it's over, or send results...
+    self.postMessage(e.data);
+    // Use self.close() to stop the worker
+}, false);
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>CORS (Cross-Origin Resource Sharing)</h2>
+    <ul>
+        <li>By default, XMLHTTPRequest are limited to the same domain, preventing a remote access to an other side in the background</li>
+        <li>CORS provides the possibility to communicate with cross-domains requests
+        <ul>
+            <li>To do so, server must add specific HTTP headers to OPTIONS message:</li>
+            <pre><code>
+Access-Control-Allow-Origin: http://myaccepteddomain
+//or accept request from anywhere
+Access-Control-Allow-Origin: *
+// Accept cookies?
+Access-Control-Allow-Credentials: true
+            </code></pre>
+        </ul>
+        </li>
+        <li>If headers are not present or not matching, request will fail.</li>
+        <li>JQuery ($.ajax, ...) will manage CORS, additional parameters are available.</li>
+    </ul>
+</section>
+
+<section class="slide">
+<li>Semantic tags (info only)</li>
+<li>file system</li>
+<li>Geo localisation (info only)</li>
+<li>Devices</li>
+<li>History stack</li>
 </section>
 
 <section class="slide">
