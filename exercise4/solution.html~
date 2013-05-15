@@ -3,7 +3,8 @@
 <head>
 
     <meta charset="utf-8">
-    <title>HTML5 training</title>
+    <title>Mobyle BioInformatics Portal</title>
+    <meta name="author" content="Mobyle team">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/static/favicon.ico">
     <link rel="stylesheet" href="css/app.css" media="screen">
@@ -11,7 +12,7 @@
 
 <body>
 <div>
-    <h2>Exercice 1.1</h2>
+    <h2>Exervice 1.1</h2>
     Connect with websocket to remote server ("ws://localhost:9000/echo")
     <h2>Exercise 1.2</h2>
     On each new <i>todo</i>, send a message to the websocket with the text of the <i>todo</i>
