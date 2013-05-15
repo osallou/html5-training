@@ -325,16 +325,16 @@ console.log(myinput.val());
     <li>Exercise 3</li>
 
     <li>notifications (Desktop)/messages (communicate between windows)</li>
-    <li>Audio/Video (show according to todo type)</li>
     <li>Exercise 4</li>
+    <li>Audio/Video (show according to todo type)</li>
+    <li>Exercise 5</li>
     <li>Canvas (basic drawing exo)</li>
-    <li>Exervice 5</li>
+    <li>Exercise 6</li>
 
     <li>Drag/Drop (info only)</li>
     <li>Workers (info only)</li>
     <li>CORS (call remote nodejs server)</li>
     <li>Semantic tags (info only)</li>
-
     <li>file system</li>
     <li>Geo localisation (info only)</li>
     <li>Devices</li>
@@ -509,6 +509,64 @@ window.addEventListener("message", handleMessage, true);
         </code></pre>
         </li>
         </ul>
+</section>
+
+<section class="slide">
+    <h2>Exercise 4</h2>
+</section>
+
+<section class="slide">
+    <h2>Audio/Video</h2>
+    <ul>
+        <li>Embedded and customizable players for audio and video</li>
+        <li>Video codecs: h.264 (mp4) ou Theora (ogv)</li>
+        <li>Audio codecs: mp3, AAC (m4a) ou Vorbis (ogg)</li>
+    </ul>
+    <pre><code>
+ &lt;video src="myvideo.ogg" controls&gt;
+    Your browser does not support the video element.
+ &lt;/video&gt;
+&lt;audio src="audio.ogg"&gt;
+    Your browser does not support the audio element.
+&lt;/audio&gt;
+    </code></pre>
+     <li>Controls:
+     <ul>
+        <li>controls: shows default controls</li>
+        <li>autoplay: Starts playing</li>
+        <li>loop: repeat play </li>
+     </ul>
+     </li>
+    <li>Multiple source possible if codec not supported by browser</li>
+    <li>Audio preload: none, auto, metadata. For large file allows buffering</li>
+</section>
+
+<section class="slide">
+    <h2>Audio/Video (next)</h2>
+    <ul>
+        <li>You can control with javascript the players
+        </li>
+        <li>Current status available: paused, ended, currentTime</li>
+    </ul>
+<pre><code>
+&lt;button onclick="document.getElementById('demo').play()"&gt;
+    Play the Audio&lt;/button&gt;
+&lt;button onclick="document.getElementById('demo').pause()"&gt;
+    Pause the Audio&lt;/button&gt;
+&lt;button onclick="document.getElementById('demo').volume+=0.1"&gt;
+    Increase Volume&lt;/button&gt;
+&lt;button onclick="document.getElementById('demo').volume-=0.1"&gt;
+    Decrease Volume&lt;/button&gt;
+
+// Seek in media
+var mediaElement = document.getElementById('demo');
+mediaElement.seekable.start();  // Returns the starting time (in seconds)
+mediaElement.seekable.end();    // Returns the ending time (in seconds)
+mediaElement.currentTime = 122; // Seek to 122 seconds
+// basic controls
+mediaElement.play();
+mediaElement.pause();
+</code></pre>
 </section>
 
 <section class="slide">
