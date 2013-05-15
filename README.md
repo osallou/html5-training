@@ -18,6 +18,7 @@ Exercices are mainly based on a sample TODO list managament program
 HTTP server (apache, ....)
 
 For server-side, nodejs, mongodb and node mongodb driver (npm install mongodb)
+WebSocket-node: npm install websocket
 
 ## Basic Javascript/HTML event /DOM manipulation
 
