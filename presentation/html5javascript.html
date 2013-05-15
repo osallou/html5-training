@@ -109,6 +109,7 @@
     	<li>event based</li>
 	<li>Supports object-like programming, eveything is an object and can be extended (prototype)</li>
 	<li>Data: loves JSON</li>
+    <li>Avoid time consuming operations that would block the page (single thread)</li>
     </ul>
 </section>
 
@@ -193,6 +194,10 @@ document.getElementById("button").addEventListener("click", function(event){
 
 <section class="slide">
 <h2>Pure Javascript - Network</h2>
+    <ul>
+        <li>One direction only: client-> server with question/answer mode</li>
+        <li>Asynchronous callbacks</li>
+    </ul>
 <pre><code>
 var xhr = null;
 if (window.XMLHttpRequest || window.ActiveXObject) {
@@ -319,7 +324,7 @@ console.log(myinput.val());
     <li>Web sockets (push info)</li>
     <li>Exercise 3</li>
 
-    <li>notifications/messages (communicate between windows)</li>
+    <li>notifications (Desktop)/messages (communicate between windows)</li>
     <li>Audio/Video (show according to todo type)</li>
     <li>Exercise 4</li>
     <li>Canvas (basic drawing exo)</li>
@@ -410,7 +415,100 @@ localStorage.clear();
 
 <section class="slide">
     <h2>Web sockets</h2>
+    <ul>
+        <li>Provides persistent HTTP connections to a server supporting web sockets</li>
+        <li>Bi-directional message communication</li>
+        <li>Used for Chat, push,...</li>
+        <li>Should encode data for transfer (base64, json stringify....)</li>
+        <li>Support binary transfer: ws.binaryType = "arraybuffer" or "blob"</li>
+        <pre><code>
+// connect to host:port on "route" /echo
+var ws = new WebSocket("ws://localhost:9000/","echo");
+ws.onmessage = function (evt)
+    {
+    var received_msg = evt.data;
+    };
+ws.onclose = function()
+    {
+    // websocket is closed.
+    };
+// Send a message
+ws.send("a message");
+        </code></pre>
+    </ul>
+</section>
 
+<section class="slide">
+    <h2>Notifications</h2>
+    <ul>
+        <li>This API is not implemented everywhere yet.</li>
+        <li>Allows Desktop notifications is user grants the application the right to do it.</li>
+    </ul>
+    <pre><code>
+if (window.webkitNotifications) {
+    console.log("Notifications are supported!");
+}
+else {
+    console.log("Notifications are not supported for this Browser/OS version yet.");
+}
+$("#mybutton").'click'(function() {
+    if (window.webkitNotifications.checkPermission() == 0) { // 0 is PERMISSION_ALLOWED
+        // Send a notification
+        window.webkitNotifications.createNotification(
+        'icon.png', 'Notification Title', 'Notification content...');
+     } else {
+        // Ask for permission
+        window.webkitNotifications.requestPermission();
+     }
+}, false);
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Messaging</h2>
+    <ul>
+        <li>Provides ways to communicate between 2 or more local navigator windows from same or different origin</li>
+        <li>Before communication, both pages must be loaded and initialized</li>
+    </ul>
+    In this example window A wants to send a message to window B, from same origin.
+    <ul><li>Window A, loaded from http://myinputdomain/input.html
+<pre><code>
+
+&lt;script&gt;
+...
+var myPopup = window.open('http://mydomain/output.html','myWindow');
+myPopup.postMessage('message','http://mydomain/'); // I specify here the origin of Window B
+...
+&lt;/script&gt;
+</code></pre>
+        </li>
+        </ul>
+</section>
+<section class="slide">
+    <h2>Messaging (next)</h2>
+    <ul>
+        <li>Window B loaded from http://mydomain/output.html
+        <pre><code>
+&lt;div id="consoleOutput"&gt;&lt;/div&gt;
+&lt;script&gt;
+...
+function handleMessage(e) {
+      // check the origin of message for security
+      if (e.origin == "http://myinputdomain") {
+         var consoleOutput=document.getElementById("consoleOutput");
+         // Display message
+         consoleOutput.textContent+= e.origin + ": " + e.data + "\n";
+      } else {
+         // If the message is coming from an untrusted origin, just ignore it :)
+       }
+}
+...
+// Listen to incoming messages
+window.addEventListener("message", handleMessage, true);
+&lt;/script&gt;
+        </code></pre>
+        </li>
+        </ul>
 </section>
 
 <section class="slide">
