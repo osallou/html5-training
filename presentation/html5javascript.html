@@ -570,6 +570,94 @@ mediaElement.pause();
 </section>
 
 <section class="slide">
+    <h2>Exercise 5</h2>
+</section>
+
+<section class="slide">
+    <h2>Canvas</h2>
+    <ul>
+        <li>Canvas is a place to draw  :-)</li>
+        <li>But it is not basic and awful drawings, you can create real games in a canvas</li>
+        <li>Some libraries: D3.js, RaphaelJS</li>
+    </ul>
+    <pre><code>
+// a place to draw
+&lt;canvas id="myCanvas" width="200" height="100"&gt;&lt;/canvas&gt;
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Canvas (next)</h2>
+    <ul>
+        <li>Possibility to use buffers to save/redraw a scene</li>
+        <li>you can't "erase" an object, you need to draw above or redraw the scene</li>
+    </ul>
+<pre><code>
+var c=document.getElementById("myCanvas");
+// Get the context
+var ctx=c.getContext("2d");
+ctx.fillStyle="#FF0000";
+ctx.fillRect(0,0,150,75);
+// Draw a line
+ctx.moveTo(0,0);
+ctx.lineTo(200,100);
+// Apply the path to the canvas
+ctx.stroke();
+// Add some text
+ctx.font="30px Arial";
+ctx.fillText("Hello World",10,50);
+// Create gradient
+var grd=ctx.createLinearGradient(0,0,200,0);
+grd.addColorStop(0,"red");
+grd.addColorStop(1,"white");
+// Fill with gradient
+ctx.fillStyle=grd;
+ctx.fillRect(10,10,150,80);
+// Draw an image
+var img=document.getElementById("my_img");
+ctx.drawImage(img,10,10);
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Canvas (next)</h2>
+    <ul>
+        <li>You can ask the browser to be triggered on a framerate for animations in a canvas</li>
+        <li>Browser will evaluate the best framerate</li>
+    </ul>
+<pre><code>
+window.requestAnimFrame = (function(){
+    return  window.requestAnimationFrame       ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame    ||
+    function( callback ){
+    // fallback, use Javascript timers
+    window.setTimeout(callback, 1000 / 60);
+    };
+})();
+
+(function animloop(){
+    requestAnimFrame(animloop);
+    // Now redraw our canvas according to your animation (character movement etc...)
+    render();
+})();
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Exercise 6</h2>
+</section>
+
+<section class="slide">
+    <h2>WebGL</h2>
+    <ul>
+        <li>We won't describe WebGL here but basically, WebGL is a subset of OpenGL in your browser to use GPUs for 3D rendering.</li>
+        <li>Not available in all browsers</li>
+        <li>Have a look at <a href="http://www.chromeexperiments.com/webgl/">http://www.chromeexperiments.com/webgl/</a></li>
+    </ul>
+</section>
+
+<section class="slide">
     <h1>To Javascript....</h1>
     <h2>CoffeeScript</h2>
     <h2>Dart</h2>
@@ -602,6 +690,7 @@ mediaElement.pause();
         <li>
             <a href="http://www.w3.org/TR/html51/">W3C</a>
         </li>
+        <li><a href="http://www.w3schools.com/html/default.asp">http://www.w3schools.com/html/default.asp</a></li>
 
     </ul>
 </section>
