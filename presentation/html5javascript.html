@@ -765,7 +765,29 @@ Access-Control-Allow-Credentials: true
 </section>
 
 <section class="slide">
-<li>Semantic tags (info only)</li>
+<h2>Semantic tags</h2>
+    <ul>
+        <li>HTML5 introduces new HTML elements with semantic information</li>
+        <li>We can find: header, footer, section, article, ...</li>
+        <li>The idea is to give more information to the page and ease the indexation by search engines.</li>
+    </ul>
+<h2>Micro data</h2>
+    <ul>
+        <li>Add information to help machine parse the data:
+        <pre><code>
+// Define what is a Person
+&lt;div itemscope itemtype="http://data-vocabulary.org/Person"&gt;
+&lt;img src="avatar.jpg" itemprop="photo"&gt;
+My name is &lt;span itemprop="name"&gt;John Doe&lt;/span&gt;
+&lt;/div&gt;
+        </code></pre>
+        A "machine" will be able to understand we describe a Person and what are its properties to extract relevant information.
+        </li>
+    </ul>
+
+</section>
+
+<section class="slide">
 <li>file system</li>
 <li>Geo localisation (info only)</li>
 <li>Devices</li>
