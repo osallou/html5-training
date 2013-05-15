@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html manifest="cache.manifest">
+<head>
+
+    <meta charset="utf-8">
+    <title>Mobyle BioInformatics Portal</title>
+    <meta name="author" content="Mobyle team">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="css/app.css" media="screen">
+</head>
+
+<body>
+<div>
+    <h2>Exercise 1.1</h2>
+    Load application for offline usage (using application cache)
+    <h2>Exercise 1.2</h2>
+    <p>Switch between online/offline mode using your navigator "offline mode" (Firefox)</p>
+    <p>On button <i>load</i>, load existing <i>todo</i>, if any, from local storage</p>
+    When status is offline:
+    <ul>
+        <li>On Add action, store <i>todo</i> in local storage </li>
+    </ul>
+    When status is back online:
+    <ul>
+        <li>Load <i>todo</i> from local storage</li>
+        <li>Simulate (console message will be enough) an update of the <li>todo</li> on a remote server</li>
+        <li>Delete <i>todo</i> from local storage</li>
+    </ul>
+    Tips: you can use the functions isOnline and isOffline provided in the code.
+</div>
+<br/>
+<div>
+    <label for="todo">Todo task</label>
+    <input type="text" id="todo" name="todo" value=""/>
+    <button type="action" id="jqueryaction">Add with JQuery</button>
+</div>
+<button type="action" id="load">Load</button>
+<h2>TODOs</h2>
+<div id="todos">
+
+</div>
+
+<script>
+
+</script>
+
+<script src="js/jquery-1.9.0.min.js"></script>
+<script src="js/app.js"></script>
+<script>
+    if (window.addEventListener) {
+        /*
+         Works well in Firefox and Opera with the
+         Work Offline option in the File menu.
+         Pulling the ethernet cable doesn't seem to trigger it.
+         Later Google Chrome and Safari seem to trigger it well
+         */
+        window.addEventListener("online", isOnline, false);
+        window.addEventListener("offline", isOffline, false);
+    }
+    else {
+        /*
+         Works in IE with the Work Offline option in the
+         File menu and pulling the ethernet cable
+         */
+        document.body.ononline = isOnline;
+        document.body.onoffline = isOffline;
+    }
+
+    function isOnline() {
+        console.log("we have switched to online mode");
+    }
+    function isOffline() {
+        console.log("we have switched to offline mode");
+    }
+
+    if(!(navigator.onLine)) {
+        isOffline();
+    }
+    else {
+        isOnline();
+    }
+
+
+    var i=0;
+
+    $(document).ready(function(){
+        $("#jqueryaction").click(function(event) {
+            var jsonstring = JSON.stringify({ "type" : "text", "text": $("#todo").val() });
+            localStorage.setItem('todo'+i, jsonstring);
+            console.log("Added todo"+i+", "+jsonstring);
+            i++;
+        });
+        $("#load").click(function(e){
+            $("#todos").html("");
+            console.log("load from storage");
+            for(var i=0, len=localStorage.length; i<len; i++) {
+                var key = localStorage.key(i);
+                var value = JSON.parse(localStorage[key]);
+                console.log(key + " => " + value);
+                console.log(value);
+                $("#todos").append("<p>"+value['text']+"</p>");
+            }
+            e.preventDefault();
+        })
+    });
+</script>
+
+</body>
+</html>
