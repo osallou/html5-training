@@ -48,6 +48,8 @@
 <script src="js/jquery-1.9.0.min.js"></script>
 <script src="js/app.js"></script>
 <script>
+    var online = true;
+
     if (window.addEventListener) {
         /*
          Works well in Firefox and Opera with the
@@ -68,9 +70,22 @@
     }
 
     function isOnline() {
+        online = true;
         console.log("we have switched to online mode");
+        //Get all elements from storage
+        // Send them to remote server
+        elts
+        for(var i=0, len=localStorage.length; i<len; i++) {
+            var key = localStorage.key(i);
+            var value = JSON.parse(localStorage[key]);
+            console.log("I would send todo to server "+key);
+        }
+        // Delete them
+        localstorage.clear();
+
     }
     function isOffline() {
+        online = false;
         console.log("we have switched to offline mode");
     }
 
@@ -86,10 +101,15 @@
 
     $(document).ready(function(){
         $("#jqueryaction").click(function(event) {
+            if(offline) {
             var jsonstring = JSON.stringify({ "type" : "text", "text": $("#todo").val() });
             localStorage.setItem('todo'+i, jsonstring);
             console.log("Added todo"+i+", "+jsonstring);
             i++;
+            }
+            else {
+                console.log("I would send todo to the server");
+            }
         });
         $("#load").click(function(e){
             $("#todos").html("");
@@ -97,8 +117,6 @@
             for(var i=0, len=localStorage.length; i<len; i++) {
                 var key = localStorage.key(i);
                 var value = JSON.parse(localStorage[key]);
-                console.log(key + " => " + value);
-                console.log(value);
                 $("#todos").append("<p>"+value['text']+"</p>");
             }
             e.preventDefault();

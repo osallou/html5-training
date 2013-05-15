@@ -311,29 +311,105 @@ console.log(myinput.val());
 </section>
 
 <section class="slide">
-    <h1>HTML 5</h1>
+    <h2>HTML 5</h2>
+    <ul>
+    <li>Offline/Online (cache)</li>
+    <li>Local storage (store when offline)</li>
+    <li>Exercise 2</li>
+    <li>Web sockets (push info)</li>
+    <li>Exercise 3</li>
 
-    <h2>Offline/Online (cache)</h2>
-    <h2>Local storage/ Web sql (store when offline)</h2>
+    <li>notifications/messages (communicate between windows)</li>
+    <li>Audio/Video (show according to todo type)</li>
+    <li>Exercise 4</li>
+    <li>Canvas (basic drawing exo)</li>
+    <li>Exervice 5</li>
+
+    <li>Drag/Drop (info only)</li>
+    <li>Workers (info only)</li>
+    <li>CORS (call remote nodejs server)</li>
+    <li>Semantic tags (info only)</li>
+
+    <li>file system</li>
+    <li>Geo localisation (info only)</li>
+    <li>Devices</li>
+    <li>History stack</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Cached application</h2>
+    <ul>
+        <li>It is possible to cache an entire application to work in offline mode</li>
+        <li>Define a file <i>cache.manifest</i> and add to the main page:
+            <pre><code>&lt;html manifest="cache.manifest"&gt;</code></pre>
+            File contains the list of needed files:
+            <pre><code>
+                CACHE MANIFEST
+                index.html
+                css/app.css
+                js/jquery-1.9.0.min.js
+                js/app.js
+            </code></pre>
+        </li>
+        <li>Application will then be loaded from local cache</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Offline/Online detection</h2>
+    <ul>
+        <li>Browsers can detect if we are currently online or offline but...</li>
+        <ul>
+                <li>
+                    Detection is browser dependant and does not check a remote server disponibility. It only detects local network availability.
+                </li>
+        </ul>
+        <li>
+            Combined with cached application, it gives the possibility to detect status and use local storage in the meanwhile for example.
+        </li>
+    </ul>
+        <pre><code>
+if (window.addEventListener) {
+    window.addEventListener("online", isOnline, false);
+    window.addEventListener("offline", isOffline, false);
+}
+else {
+    document.body.ononline = isOnline;
+    document.body.onoffline = isOffline;
+}
+function isOnline() { ... }
+function isOffline() { ... }
+        </code></pre>
+
+</section>
+
+<section class="slide">
+    <h2>Local storage</h2>
+    <ul>
+        <li>Local storage is a basic key/value store (values are strings)</li>
+        <li>Limited capacity, should not be used for large storage</li>
+    </ul>
+    <pre><code>
+localStorage.setItem('mykey','myvalue');
+myvalue =  localStorage.getItem('mykey');
+//Loop over all elements
+for(var i=0, len=localStorage.length; i&lt;len;i++) {
+    var key = localStorage.key(i);
+    var value = localStorage[key];
+    ...
+}
+// Clear store
+localStorage.clear();
+    </code></pre>
+</section>
+
+<section class="slide">
     <h2>Exercise 2</h2>
-    <h2>Web sockets (push info)</h2>
-    <h2>Exercise 3</h2>
+</section>
 
-    <h2>notifications/messages (communicate between windows)</h2>
-    <h2>Audio/Video (show according to todo type)</h2>
-    <h2>Exercise 4</h2>
-    <h2>Canvas (basic drawing exo)</h2>
-    <h2>Exervice 5</h2>
-
-    <h2>Drag/Drop (info only)</h2>
-    <h2>Workers (info only)</h2>
-    <h2>CORS (call remote nodejs server)</h2>
-    <h2>Semantic tags (info only)</h2>
-
-    <h2>file system</h2>
-    <h2>Geo localisation (info only)</h2>
-    <h2>Devices</h2>
-    <h2>History stack</h2>
+<section class="slide">
+    <h2>Web sockets</h2>
 </section>
 
 <section class="slide">
