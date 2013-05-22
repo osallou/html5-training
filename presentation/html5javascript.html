@@ -343,6 +343,19 @@ console.log(myinput.val());
 </section>
 
 <section class="slide">
+    <h2>HTML5 support</h2>
+    <ul>
+        <li>Still in validation at W3C</li>
+        <li>Though many features are already available in all modern browsers...</li>
+    </ul>
+    <h3>Tips</h3>
+    <ul>
+        <li>Add fallback message if feature is not supported</li>
+        <li><a href="http://modernizr.com/">Modernizr</a> library detectes for you feature support in user browser. Application can ask library is this or this feature is supported.</li>
+    </ul>
+</section>
+
+<section class="slide">
     <h2>Cached application</h2>
     <ul>
         <li>It is possible to cache an entire application to work in offline mode</li>
@@ -359,6 +372,7 @@ console.log(myinput.val());
         </li>
         <li>Application will then be loaded from local cache</li>
     </ul>
+    <p>To clear cache on chrome: chrome://appcache-internals/</p>
 </section>
 
 <section class="slide">
@@ -412,6 +426,18 @@ localStorage.clear();
 </section>
 
 <section class="slide">
+    <h2>Session storage</h2>
+    <ul>
+        <li>Like Local Storage (implements Storage API) but for sessions</li>
+        <li>Live during the window/frame duration</li>
+        <li>One different session storage per window/frame</li>
+    </ul>
+    <pre><code>
+sessionStorage["login"] = "myuser";
+    </code></pre>
+</section>
+
+<section class="slide">
     <h2>Exercise 2</h2>
 </section>
 
@@ -438,6 +464,10 @@ ws.onclose = function()
 // Send a message
 ws.send("a message");
         </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Exercise 3</h2>
 </section>
 
 <section class="slide">
@@ -749,7 +779,7 @@ self.addEventListener('message', function(e) {
         <li>By default, XMLHTTPRequest are limited to the same domain, preventing a remote access to an other side in the background</li>
         <li>CORS provides the possibility to communicate with cross-domains requests
         <ul>
-            <li>To do so, server must add specific HTTP headers to OPTIONS message:</li>
+            <li>To do so, server must add specific HTTP headers to OPTIONS message:
             <pre><code>
 Access-Control-Allow-Origin: http://myaccepteddomain
 //or accept request from anywhere
@@ -757,6 +787,7 @@ Access-Control-Allow-Origin: *
 // Accept cookies?
 Access-Control-Allow-Credentials: true
             </code></pre>
+            </li>
         </ul>
         </li>
         <li>If headers are not present or not matching, request will fail.</li>
@@ -788,36 +819,206 @@ My name is &lt;span itemprop="name"&gt;John Doe&lt;/span&gt;
 </section>
 
 <section class="slide">
-<li>file system</li>
-<li>Geo localisation (info only)</li>
-<li>Devices</li>
-<li>History stack</li>
+<h2>File system API</h2>
+ <ul>
+     <li>This API gives access to a sandbox restricted file system.</li>
+     <li>Requires user acknowledge</li>
+     <li>Request for a disk quota</li>
+     <li>Provides file and directory read/write access</li>
+ </ul>
+     <pre><code>
+function onInitFs(fs) {
+  fs.root.getFile('log.txt', {}, function(fileEntry) {
+         // Get a File object representing the file,
+         // then use FileReader to read its contents.
+         fileEntry.file(function(file) {
+         var reader = new FileReader();
+
+         reader.onloadend = function(e) {
+         var txtArea = document.createElement('textarea');
+         txtArea.value = this.result;
+         document.body.appendChild(txtArea);
+         };
+
+         reader.readAsText(file);
+         }, errorHandler);
+
+  }, errorHandler);
+}
+window.requestFileSystem(window.TEMPORARY, 5*1024*1024 /*5MB*/, onInitFs, errorHandler);
+     </code></pre>
 </section>
 
 <section class="slide">
-    <h1>To Javascript....</h1>
+    <h2>Geolocation</h2>
+    <ul>
+        <li>More mobile oriented</li>
+        <li>Needs user acknowledgment</li>
+        <li>Provides location (GPS, IP, GSM,...) according to browser capabilities/network</li>
+        <li>Asynchronous (can take up some time)</li>
+    </ul>
+ <pre><code>
+function followUser(position) {
+     console.log("latitude :" + position.coords.latitude);
+     console.log("longitude :" + position.coords.longitude);
+     console.log("altitude :" + position.coords.altitude);
+     console.log("speed :" + position.coords.speed);
+}
+
+ // Watch user movements
+var follower = navigator.geolocation.watchPosition(followUser);
+
+// To stop watching: navigator.geolocation.clearWatch(follower);
+ </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Devices</h2>
+    <ul>
+    <li>Possibility to (mobile) device orientation and events</li>
+    <li>Follow orientation, acceleration and rotation data</li>
+    </ul>
+<pre><code>
+// Listen for the deviceorientation event and handle DeviceOrientationEvent object
+window.addEventListener('deviceorientation', devOrientHandler, false);
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>History stack</h2>
+    <ul>
+        <li>HTML5 provides many behind the ground operations/handling</li>
+        <li>but a Back in your browser will load the previous HTML page and quit the application</li>
+    </ul>
+    <ul>
+        <li>History lets you manipulate the browser history stack to bavigate back and forth in your application with the browser back/forward buttons</li>
+    </ul>
+<pre><code>
+// Check the length of the history stack
+console.log(history.length);
+// Send the user agent forward
+console.log(history.forward());
+// Send the user agent back
+console.log(history.back());
+
+// now update history stack
+history.pushState(data_related_to_event, name_to_show_in_history, url_to_show);
+
+// Keep me informed of history back actions
+window.addEventListener('popstate', function(event) {
+    console.log('popstate fired!');
+});
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Compile to Javascript....</h2>
+    <h3><a href="http://coffeescript.org/">CoffeeScript</a></h3>
+    <ul><li>Looks like Javascript, and supports embedded Javascript.</li>
+    </ul>
+    <h3><a href="http://www.dartlang.org/">Dart</a></h3>
+    <ul>
+        <li>New language from Google, supported in Chromium</li>
+        <li>More structure/typed</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Javascript generation</h2>
+    <ul>
+        <li>Use compilers to generate some Javascript from Javascript-like languages</li>
+        <li>Expects to provide better performances and better writing rules</li>
+    </ul>
+</section>
+
+<section class="slide">
     <h2>CoffeeScript</h2>
+    <p>See example at http://coffeescript.org/</p>
+</section>
+
+
+<section class="slide">
     <h2>Dart</h2>
+    <ul>
+        <li>example.dart</li>
+    </ul>
+<pre><code>
+import 'dart:html'
+void main() {
+ query("#ID").text = 'Hello world';
+}
+</code></pre>
 </section>
 
 <section class="slide">
-    <h1>Frameworks MVC like</h1>
-    <h2>AngularJS</h2>
-    <h2>BackboneJS</h2>
-    <h2>Knockout</h2>
+    <h2>Frameworks MVC like</h2>
+    <h3>AngularJS</h3>
+    <h3>BackboneJS</h3>
+    <h3>Knockout</h3>
+    <h3>...</h3>
 </section>
 
 <section class="slide">
-    <h1>A different Javascript</h1>
-    <h2>asm - http://asmjs.org/spec/latest/</h2>
-    <h2>on desktop (TideSDK)</h2>
-    <h2>...</h2>
+    <h2>Frameworks</h2>
+    <ul>
+        <li>Add structure to the client side using MVC like patterns (like Symfony, Rails, Pyramid, ...)</li>
+        <li>Templating for views</li>
+        <li>More client-side internal routing with REST server communications</li>
+        <li>Limit page reloads</li>
+        <li>Automatic data binding (refresh) between views and models</li>
+        <li>Each framework has its way to manage binding and DOM manipulation</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>AngularJS example</h2>
+    <pre><code>
+&lt;div>
+&lt;label&gt;Name:&lt;/label&gt;
+// Attach value of the following input to the model variable named "yourName" in two-way binding
+// When the model change, value will be updated
+// When input value is modified, model will be updated too
+&lt;input type="text" ng-model="yourName" placeholder="Enter a name here"&gt;
+// Display the value of "yourName" from current scope
+&lt;h1&gt;Hello {{yourName}}!&lt;/h1&gt;
+&lt;/div&gt;
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>A different Javascript</h2>
+    <h3>asm - http://asmjs.org/spec/latest/</h3>
+    <h3>on desktop (TideSDK)</h3>
+    <h3>...</h3>
+</section>
+
+<section class="slide">
+    <h2>TideSDK</h2>
+    <ul>
+        <li>Create HTML+Javascript application, but running on the Desktop</li>
+        <li>Embeds browser engine like WebKit in the application</li>
+        <li>Adds a few API for pure desktop operations (not sandboxed)</li>
+        <li>Package the app and install it on Desktop</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Asm</h2>
+    <p>asm.js is a research project at Mozilla that aims to formally define the subset of JavaScript that compilers like Emscripten and Mandreel already generate (typed arrays as memory, etc.)</p>
+    <ul>
+        <li>C/C++    =>    LLVM    =>    Emscripten    =>    JavaScript</li>
+        <li>LLVM: compiler and toolchain technologies for code optimization, generates bytecode</li>
+        <li>Emscripten: LLVM-to-JavaScript compiler</li>
+        <li><a href="http://asmjs.org/spec/latest/">Specifications</a></li>
+        <li><a href="http://kripken.github.io/mloc_emscripten_talk">more...</a></li>
+    </ul>
+    <p>Code is just a subset of JavaScript</p>
 </section>
 
 <section class="slide">
     <h2>Links</h2>
     <ul>
-        <li><a href="http://www.html5rocks.com/">http://www.html5rocks.com/</a></li>
+        <li><a href="http://www.html5rocks.com/">http://www.html5rocks.com/</a>: All you need is here! Some code examples presented here are extracted from this web site</li>
         <li>
             <a href="http://slides.html5rocks.com/">http://slides.html5rocks.com/</a>
         </li>
