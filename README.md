@@ -1,7 +1,5 @@
 # HTML5 + Javascript training materials
 
-in progress...
-
 ## License
 
 All work (presentation and exercices) are available under CC BY 3.0 license.
