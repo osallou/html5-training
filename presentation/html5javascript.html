@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=1024, user-scalable=no">
+
+	<title>HTML 5 - Javascript</title>
+	
+	<!-- Required stylesheet -->
+	<link rel="stylesheet" href="core/deck.core.css">
+	
+	<!-- Extension CSS files go here. Remove or add as needed. -->
+	<link rel="stylesheet" href="extensions/goto/deck.goto.css">
+	<link rel="stylesheet" href="extensions/menu/deck.menu.css">
+	<link rel="stylesheet" href="extensions/navigation/deck.navigation.css">
+	<link rel="stylesheet" href="extensions/status/deck.status.css">
+	<link rel="stylesheet" href="extensions/hash/deck.hash.css">
+	<link rel="stylesheet" href="extensions/scale/deck.scale.css">
+
+	<!-- Style theme. More available in /themes/style/ or create your own. -->
+	<link rel="stylesheet" href="themes/style/web-2.0.css">
+	
+	<!-- Transition theme. More available in /themes/transition/ or create your own. -->
+	<link rel="stylesheet" href="themes/transition/horizontal-slide.css">
+	
+	<!-- Required Modernizr file -->
+	<script src="modernizr.custom.js"></script>
+</head>
+<body class="deck-container">
+
+<!-- Begin slides. Just make elements with a class of slide. -->
+
+<section class="slide">
+    <h2>HTML 5 and Javascript training session</h2>
+    <img src="http://www.w3.org/html/logo/downloads/HTML5_Logo_128.png"/>
+    <hr/>
+    <p style="text-align: right;margin-top: 20px;">By Olivier Sallou - olivier.sallou@irisa.fr</p>
+</section>
+
+<section class="slide">
+	<h2>Materials</h2>
+<p>Presentation and exercices are available at: <a href="https://github.com/osallou/html5-training">https://github.com/osallou/html5-training</a></p>
+<p>Content is available under <a href="http://creativecommons.org/licenses/by/3.0/">Creative Common By 3.0</a></p>
+</section>
+
+<section class="slide">
+	<h1>HTML</h1>
+</section>
+<section class="slide">
+    <h2>Important tips</h2>
+    <ul>
+        <li class="slide">
+            <h3>XHTML strict</h3>
+            <p>HTML markups must follow strict HTML</p>
+        </li>
+        <li class="slide">
+            <h3>Limit Javascript libraries loading at startup (in head section)</h3>
+        </li>
+        <li class="slide">
+            <h3>Store  program information in <b>data-xxx</b> attribute</h3>
+            <pre><code>&lt;div id=&quot;my&quot;  data-my=&quot;example&quot;&gt;&lt;/div&gt;</code></pre>
+        </li>
+        <li class="slide">
+            <h3>HTML elements managed with attributes:</h3>
+            <ul><li>id : <b>must</b> be unique in the page</li>
+            <li>name: name of the parameter for forms, should be name myparam[] for multiple value parameters</li>
+            <li>class: used for display with CSS but also to select multiple elements sharing a common usage</li>
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section class="slide">
+	<h1>CSS</h1>
+</section>
+<section class="slide">
+    <h2>CSS stylesheets</h2>
+    <p>Move all display/style in CSS files</p>
+    <p>Rules can apply on an attribute <b>id</b> or <b>class</b></p>
+    <p>Many useful selectors (x-before, x-after, attributes, ...)</p>
+    <p><a href="http://sass-lang.com/">sass</a> helps to introduce variables and inheritance in CSS, but not interpreted natively, must be compiled to CSS</p>
+</section>
+
+<section class="slide">
+    <h1>Debuggers</h1>
+</section>
+<section class="slide">
+    <h2>Firebug, Chrome Developper tools,...</h2>
+    <p>All navigators integrate developper tools:</p>
+    <ul>
+        <li>Network access</li>
+        <li>Javascript console and errors</li>
+        <li>Dynamic HTML DOM layout</li>
+        <li>Style applied on an element</li>
+    </ul>
+    <h3><i>console.log("...")</i> is your friend</h3>
+</section>
+
+<section class="slide">
+    <h1>Javascript</h1>
+</section>
+
+<section class="slide">
+    <h2>Javascript</h2>
+    <ul>
+    	<li>non typed</li>
+    	<li>asynchronous</li>
+    	<li>event based</li>
+	<li>Supports object-like programming, eveything is an object and can be extended (prototype)</li>
+	<li>Data: loves JSON</li>
+    <li>Avoid time consuming operations that would block the page (single thread)</li>
+    </ul>
+</section>
+
+<section class="slide">
+<h2>Pure Javascript - variables</h2>
+Variables are visible within the scope of their declaration (function, global, loop...)
+<pre><code>
+var test = 10;
+test = "test"
+// Array
+test = new Array();
+test[0] = 10;
+// Object / JSON
+test = {};
+test["var1"] = 10;
+</code></pre>
+</section>
+
+<section class="slide">
+<h2>Pure Javascript - functions</h2>
+<pre><code>
+function add(a,b) {
+ console.log("a="+a);
+ return a+b;
+}
+</code></pre>
+</section>
+
+<section class="slide">
+<h2>Pure Javascript - Objects</h2>
+<div><i>objectname</i>.prototype.<i>propertyname</i> = <i>expression</i> ; </div>
+<pre><code>
+  function MyObjet(name){ // constructor
+    this.name=name;                             
+  }
+
+  MyObjet.prototype.minWidth = 500;
+
+  MyObjet.prototype.setWidth = function(x) {
+    if (x >= this.minWidth ) {
+      this.width = x ;
+      ...
+      // We could resize a div with name
+      // this.name for example
+    }
+  }
+
+  var test = new MyObjet("sample");  // instantiate an object
+  test.setWidth(300);
+</code></pre>
+</section>
+
+<section class="slide">
+  <h2>Pure Javascript - DOM manipulation</h2>
+  <ul>
+  <li>Select/Add elements
+    <pre><code>
+div1=document.getElementById("div1");
+p1=document.createElement("p") ;
+// Set attribute
+p1.data-something = "test";
+// Set "content"
+p1.innerHTML = "some text";
+div1.appendChild(p1);
+    </code></pre>
+  </li>
+  <li>Events
+    <pre><code>
+// Add an event (click) listener on "button" element
+document.getElementById("button").addEventListener("click", function(event){
+	alert("button clicked");
+	// Stop event propagation
+	event.stopPropagation();
+	// e.cancelBubble = true; for some IE
+}, true);
+    </code></pre>
+
+  </li>
+  </ul>
+</section>
+
+
+<section class="slide">
+<h2>Pure Javascript - Network</h2>
+    <ul>
+        <li>One direction only: client-> server with question/answer mode</li>
+        <li>Asynchronous callbacks</li>
+    </ul>
+<pre><code>
+var xhr = null;
+if (window.XMLHttpRequest || window.ActiveXObject) {
+    if (window.ActiveXObject) {
+        try {
+            xhr = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch(e) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+    } else {
+        xhr = new XMLHttpRequest(); 
+    }
+} else {
+    alert("Votre navigateur ne supporte pas l'objet XMLHTTPRequest...");
+    return;
+}
+
+// callback on answer
+xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+        // We could use JSON.parse to retreive JSON encoded data
+        alert(xhr.responseText);
+    }
+};
+
+xhr.open("GET", "handlingData.php?variable1=data1&variable2=data2", true);
+xhr.send(null);
+</code>
+</pre>
+</section>
+
+<section class="slide">
+    <h1>JQuery</h1>
+</section>
+
+<section class="slide">
+    <h2>Why JQuery? (or Prototype etc..)</h2>
+<ul>
+<li>Lots of API stuff that helps DOM and event manipulation</li>
+<li>Lots of libraries/plugins available</li>
+<li>Hides browsers implementations: code once, run everywhere</li>
+</ul>
+</section>
+
+<section class="slide">
+    <h2>JQuery basic usage</h2>
+<ul>
+<li>Needs to wait library to be loaded before any use</li>
+<li><pre><code>
+$(document).ready(function() {
+  // do your stuff
+});
+
+//OR
+
+$(function() {
+     // do some stuff
+});
+</code></pre></li>
+<li>Manipulates JQuery objects, not pure DOM elements (but can be converted to/from)</li>
+</ul>
+</section>
+
+<section class="slide">
+    <h2>Easy DOM access</h2>
+    <ul>
+        <li>$("div"): access all <b>div</b> elements</li>
+        <li>$(".myclass"): access all elements with class <i>myclass</i></li>
+        <li>$("#myobject"): access element with id <i>myobject</i></li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Easy DOM manipulation</h2>
+    <p>
+        &lt;input id="myspecificinput" type="text" value="8"/&gt;
+        &lt;div id="myspecificdiv"&gt;
+        &lt;/div&gt;
+    </p>
+    <pre><code>
+var myobj = $("#myspecificdiv");
+// Add some HTML content in my div
+myobj.append("&lt;p&gt;sometext&lt;/p&gt;");
+// Access attributes of my div
+myobj.attr("data-sample","something");
+var myattr = myobj.attr("data-other");
+console.log(myattr);
+// get/set the value of an input form
+var myinput =  $("#myspecificinput");
+myinput.val(10);
+console.log(myinput.val());
+    </code></pre>
+    <p>Results in
+        &lt;input id="myspecificinput" type="text" value="9"/&gt;
+        &lt;div data-sample="something" id="myspecificdiv"&gt;
+        &lt;p&gt; sometext&lt;p&gt;
+        &lt;/div&gt;
+    </p>
+</section>
+
+<section class="slide">
+    <h2>Easy network access</h2>
+
+<pre><code>
+    $.getJSON(myurl, function(data) {
+           // data is already JSON encoded..
+           console.log(data['some_key_in_object']);
+    });
+</code></pre>
+    <p>Warning: URL should be in current domain or a server accepting cross-domain requests (see CORS). </p>
+</section>
+
+
+<section class="slide">
+<h2>Exercise 1</h2>
+</section>
+
+<section class="slide">
+    <h2>HTML 5</h2>
+    <ul>
+    <li>Offline/Online (cache)</li>
+    <li>Local storage (store when offline)</li>
+    <li>Exercise 2</li>
+    <li>Web sockets (push info)</li>
+    <li>Exercise 3</li>
+
+    <li>notifications (Desktop)/messages (communicate between windows)</li>
+    <li>Exercise 4</li>
+    <li>Audio/Video (show according to todo type)</li>
+    <li>Exercise 5</li>
+    <li>Canvas (basic drawing exo)</li>
+    <li>Exercise 6</li>
+
+    <li>Drag/Drop (info only)</li>
+    <li>Workers (info only)</li>
+    <li>CORS (call remote nodejs server)</li>
+    <li>Semantic tags (info only)</li>
+    <li>file system</li>
+    <li>Geo localisation (info only)</li>
+    <li>Devices</li>
+    <li>History stack</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>HTML5 support</h2>
+    <ul>
+        <li>Still in validation at W3C</li>
+        <li>Though many features are already available in all modern browsers...</li>
+    </ul>
+    <h3>Tips</h3>
+    <ul>
+        <li>Add fallback message if feature is not supported</li>
+        <li><a href="http://modernizr.com/">Modernizr</a> library detectes for you feature support in user browser. Application can ask library is this or this feature is supported.</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Cached application</h2>
+    <ul>
+        <li>It is possible to cache an entire application to work in offline mode</li>
+        <li>Define a file <i>cache.manifest</i> and add to the main page:
+            <pre><code>&lt;html manifest="cache.manifest"&gt;</code></pre>
+            File contains the list of needed files:
+            <pre><code>
+                CACHE MANIFEST
+                index.html
+                css/app.css
+                js/jquery-1.9.0.min.js
+                js/app.js
+            </code></pre>
+        </li>
+        <li>Application will then be loaded from local cache</li>
+    </ul>
+    <p>To clear cache on chrome: chrome://appcache-internals/</p>
+</section>
+
+<section class="slide">
+    <h2>Offline/Online detection</h2>
+    <ul>
+        <li>Browsers can detect if we are currently online or offline but...</li>
+        <li>
+        <ul>
+                <li>
+                    Detection is browser dependant and does not check a remote server connectivity. It only detects local network availability.
+                </li>
+        </ul>
+        </li>
+        <li>
+            Combined with cached application, it gives the possibility to detect status and use local storage in the meanwhile for example.
+        </li>
+    </ul>
+        <pre><code>
+if (window.addEventListener) {
+    window.addEventListener("online", isOnline, false);
+    window.addEventListener("offline", isOffline, false);
+}
+else {
+    document.body.ononline = isOnline;
+    document.body.onoffline = isOffline;
+}
+function isOnline() { ... }
+function isOffline() { ... }
+        </code></pre>
+
+</section>
+
+<section class="slide">
+    <h2>Local storage</h2>
+    <ul>
+        <li>Local storage is a basic key/value store (values are strings)</li>
+        <li>Limited capacity, should not be used for large storage</li>
+    </ul>
+    <pre><code>
+localStorage.setItem('mykey','myvalue');
+myvalue =  localStorage.getItem('mykey');
+//Loop over all elements
+for(var i=0, len=localStorage.length; i&lt;len;i++) {
+    var key = localStorage.key(i);
+    var value = localStorage[key];
+    ...
+}
+// Clear store
+localStorage.clear();
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Session storage</h2>
+    <ul>
+        <li>Like Local Storage (implements Storage API) but for sessions</li>
+        <li>Live during the window/frame duration</li>
+        <li>One different session storage per window/frame</li>
+    </ul>
+    <pre><code>
+sessionStorage["login"] = "myuser";
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Exercise 2</h2>
+</section>
+
+<section class="slide">
+    <h2>Web sockets</h2>
+    <ul>
+        <li>Provides persistent HTTP connections to a server supporting web sockets</li>
+        <li>Bi-directional message communication</li>
+        <li>Used for Chat, push,...</li>
+        <li>Should encode data for transfer (base64, json stringify....)</li>
+        <li>Support binary transfer: ws.binaryType = "arraybuffer" or "blob"</li>
+    </ul>
+        <pre><code>
+// connect to host:port on "route" /echo
+var ws = new WebSocket("ws://localhost:9000/","echo");
+ws.onmessage = function (evt)
+    {
+    var received_msg = evt.data;
+    };
+ws.onclose = function()
+    {
+    // websocket is closed.
+    };
+// Send a message
+ws.send("a message");
+        </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Exercise 3</h2>
+</section>
+
+<section class="slide">
+    <h2>Notifications</h2>
+    <ul>
+        <li>This API is not implemented everywhere yet.</li>
+        <li>Allows Desktop notifications is user grants the application the right to do it.</li>
+    </ul>
+    <pre><code>
+if (window.webkitNotifications) {
+    console.log("Notifications are supported!");
+}
+else {
+    console.log("Notifications are not supported for this Browser/OS version yet.");
+}
+$("#mybutton").'click'(function() {
+    if (window.webkitNotifications.checkPermission() == 0) { // 0 is PERMISSION_ALLOWED
+        // Send a notification
+        window.webkitNotifications.createNotification(
+        'icon.png', 'Notification Title', 'Notification content...');
+     } else {
+        // Ask for permission
+        window.webkitNotifications.requestPermission();
+     }
+}, false);
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Messaging</h2>
+    <ul>
+        <li>Provides ways to communicate between 2 or more local navigator windows from same or different origin</li>
+        <li>Before communication, both pages must be loaded and initialized</li>
+    </ul>
+    In this example window A wants to send a message to window B, from same origin.
+    <ul><li>Window A, loaded from http://myinputdomain/input.html
+<pre><code>
+
+&lt;script&gt;
+...
+var myPopup = window.open('http://mydomain/output.html','myWindow');
+myPopup.postMessage('message','http://mydomain/'); // I specify here the origin of Window B
+...
+&lt;/script&gt;
+</code></pre>
+        </li>
+        </ul>
+</section>
+<section class="slide">
+    <h2>Messaging (next)</h2>
+    <ul>
+        <li>Window B loaded from http://mydomain/output.html
+        <pre><code>
+&lt;div id="consoleOutput"&gt;&lt;/div&gt;
+&lt;script&gt;
+...
+function handleMessage(e) {
+      // check the origin of message for security
+      if (e.origin == "http://myinputdomain") {
+         var consoleOutput=document.getElementById("consoleOutput");
+         // Display message
+         consoleOutput.textContent+= e.origin + ": " + e.data + "\n";
+      } else {
+         // If the message is coming from an untrusted origin, just ignore it :)
+       }
+}
+...
+// Listen to incoming messages
+window.addEventListener("message", handleMessage, true);
+&lt;/script&gt;
+        </code></pre>
+        </li>
+        </ul>
+</section>
+
+<section class="slide">
+    <h2>Exercise 4</h2>
+</section>
+
+<section class="slide">
+    <h2>Audio/Video</h2>
+    <ul>
+        <li>Embedded and customizable players for audio and video</li>
+        <li>Video codecs: h.264 (mp4) ou Theora (ogv)</li>
+        <li>Audio codecs: mp3, AAC (m4a) ou Vorbis (ogg)</li>
+    </ul>
+    <pre><code>
+ &lt;video src="myvideo.ogg" controls&gt;
+    Your browser does not support the video element.
+ &lt;/video&gt;
+&lt;audio src="audio.ogg"&gt;
+    Your browser does not support the audio element.
+&lt;/audio&gt;
+    </code></pre>
+    <ul>
+     <li>Controls:
+          <ul>
+
+            <li>controls: shows default controls</li>
+            <li>autoplay: Starts playing</li>
+            <li>loop: repeat play </li>
+          </ul>
+
+     </li>
+    <li>Multiple source possible if codec not supported by browser</li>
+    <li>Audio preload: none, auto, metadata. For large file allows buffering</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Audio/Video (next)</h2>
+    <ul>
+        <li>You can control with javascript the players
+        </li>
+        <li>Current status available: paused, ended, currentTime</li>
+    </ul>
+<pre><code>
+&lt;button onclick="document.getElementById('demo').play()"&gt;
+    Play the Audio&lt;/button&gt;
+&lt;button onclick="document.getElementById('demo').pause()"&gt;
+    Pause the Audio&lt;/button&gt;
+&lt;button onclick="document.getElementById('demo').volume+=0.1"&gt;
+    Increase Volume&lt;/button&gt;
+&lt;button onclick="document.getElementById('demo').volume-=0.1"&gt;
+    Decrease Volume&lt;/button&gt;
+
+// Seek in media
+var mediaElement = document.getElementById('demo');
+mediaElement.seekable.start();  // Returns the starting time (in seconds)
+mediaElement.seekable.end();    // Returns the ending time (in seconds)
+mediaElement.currentTime = 122; // Seek to 122 seconds
+// basic controls
+mediaElement.play();
+mediaElement.pause();
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Exercise 5</h2>
+</section>
+
+<section class="slide">
+    <h2>Canvas</h2>
+    <ul>
+        <li>Canvas is a place to draw  :-)</li>
+        <li>But it is not basic and awful drawings, you can create real games in a canvas</li>
+        <li>Some libraries: D3.js, RaphaelJS</li>
+    </ul>
+    <pre><code>
+// a place to draw
+&lt;canvas id="myCanvas" width="200" height="100"&gt;&lt;/canvas&gt;
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Canvas (next)</h2>
+    <ul>
+        <li>Possibility to use buffers to save/redraw a scene</li>
+        <li>you can't "erase" an object, you need to draw above or redraw the scene</li>
+    </ul>
+<pre><code>
+var c=document.getElementById("myCanvas");
+// Get the context
+var ctx=c.getContext("2d");
+ctx.fillStyle="#FF0000";
+ctx.fillRect(0,0,150,75);
+// Draw a line
+ctx.moveTo(0,0);
+ctx.lineTo(200,100);
+// Apply the path to the canvas
+ctx.stroke();
+// Add some text
+ctx.font="30px Arial";
+ctx.fillText("Hello World",10,50);
+// Create gradient
+var grd=ctx.createLinearGradient(0,0,200,0);
+grd.addColorStop(0,"red");
+grd.addColorStop(1,"white");
+// Fill with gradient
+ctx.fillStyle=grd;
+ctx.fillRect(10,10,150,80);
+// Draw an image
+var img=document.getElementById("my_img");
+ctx.drawImage(img,10,10);
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Canvas (next)</h2>
+    <ul>
+        <li>You can ask the browser to be triggered on a framerate for animations in a canvas</li>
+        <li>Browser will evaluate the best framerate</li>
+    </ul>
+<pre><code>
+window.requestAnimFrame = (function(){
+    return  window.requestAnimationFrame       ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame    ||
+    function( callback ){
+    // fallback, use Javascript timers
+    window.setTimeout(callback, 1000 / 60);
+    };
+})();
+
+(function animloop(){
+    requestAnimFrame(animloop);
+    // Now redraw our canvas according to your animation (character movement etc...)
+    render();
+})();
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Exercise 6</h2>
+</section>
+
+<section class="slide">
+    <h2>WebGL</h2>
+    <ul>
+        <li>We won't describe WebGL here but basically, WebGL is a subset of OpenGL in your browser to use GPUs for 3D rendering.</li>
+        <li>Not available in all browsers</li>
+        <li>Have a look at <a href="http://www.chromeexperiments.com/webgl/">http://www.chromeexperiments.com/webgl/</a></li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Drag and drop</h2>
+    <ul>
+        <li>Support for native drag and drop</li>
+        <li>Drag and drop HTMl elements</li>
+        <li>Drag and drop files(images...)</li>
+        <li>Drag from Desktop (managing e.dataTransfer.files on drop target)</li>
+    </ul>
+<pre><code>
+// Make something draggable
+&lt;div draggable="true"&gt;&lt;/div&gt;
+</code></pre>
+
+</section>
+
+<section class="slide">
+    <h2>Drag and drop (next)</h2>
+
+<pre><code>
+var dragSrcEl = null;
+
+function handleDragStart(e) {
+    // current element we drag
+    dragSrcEl = this;
+    // We want to copy the HTML content of the div
+    e.dataTransfer.setData('text/html', this.innerHTML);
+}
+
+function handleDrop(e) {
+    // this / e.target is current target element.
+    if (e.stopPropagation) {
+    e.stopPropagation();
+    // stops the browser from redirecting.
+    }
+    // We put the transfered data in current drop object
+    this.innerHTML = e.dataTransfer.getData('text/html');
+    return false;
+}
+
+myobj = document.getElementById("mydraggable");
+myobj.addEventListener('dragstart', handleDragStart, false);
+myobj.addEventListener('drop', handleDrop, false);
+myobj.addEventListener('dragend', handleDragEnd, false);
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Workers</h2>
+    <ul>
+        <li>Enable time consuming background tasks with real concurrency</li>
+        <li>Should be limited usage (cpu consuming on user desktop)</li>
+        <li>Support data transfer (clone or transfer)</li>
+        <li>Load external or inline script</li>
+    </ul>
+</section>
+<section class="slide">
+    <h2>Workers (next)</h2>
+<pre><code>
+//Create worker from a javascript file
+var worker = new Worker('doWork.js');
+
+worker.addEventListener('message', function(e) {
+    console.log('Worker said: ', e.data);
+}, false);
+
+worker.postMessage('start working please'); // Send data to our worker.
+
+
+// In doWork.js
+// Listen to messages
+self.addEventListener('message', function(e) {
+    // Do your stuff
+    ...
+    // Say it's over, or send results...
+    self.postMessage(e.data);
+    // Use self.close() to stop the worker
+}, false);
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>CORS (Cross-Origin Resource Sharing)</h2>
+    <ul>
+        <li>By default, XMLHTTPRequest are limited to the same domain, preventing a remote access to an other side in the background</li>
+        <li>CORS provides the possibility to communicate with cross-domains requests
+        <ul>
+            <li>To do so, server must add specific HTTP headers to OPTIONS message:
+            <pre><code>
+Access-Control-Allow-Origin: http://myaccepteddomain
+//or accept request from anywhere
+Access-Control-Allow-Origin: *
+// Accept cookies?
+Access-Control-Allow-Credentials: true
+            </code></pre>
+            </li>
+        </ul>
+        </li>
+        <li>If headers are not present or not matching, request will fail.</li>
+        <li>JQuery ($.ajax, ...) will manage CORS, additional parameters are available.</li>
+    </ul>
+</section>
+
+<section class="slide">
+<h2>Semantic tags</h2>
+    <ul>
+        <li>HTML5 introduces new HTML elements with semantic information</li>
+        <li>We can find: header, footer, section, article, ...</li>
+        <li>The idea is to give more information to the page and ease the indexation by search engines.</li>
+    </ul>
+<h2>Micro data</h2>
+    <ul>
+        <li>Add information to help machine parse the data:
+        <pre><code>
+// Define what is a Person
+&lt;div itemscope itemtype="http://data-vocabulary.org/Person"&gt;
+&lt;img src="avatar.jpg" itemprop="photo"&gt;
+My name is &lt;span itemprop="name"&gt;John Doe&lt;/span&gt;
+&lt;/div&gt;
+        </code></pre>
+        A "machine" will be able to understand we describe a Person and what are its properties to extract relevant information.
+        </li>
+    </ul>
+
+</section>
+
+<section class="slide">
+<h2>File system API</h2>
+ <ul>
+     <li>This API gives access to a sandbox restricted file system.</li>
+     <li>Requires user acknowledge</li>
+     <li>Request for a disk quota</li>
+     <li>Provides file and directory read/write access</li>
+ </ul>
+     <pre><code>
+function onInitFs(fs) {
+  fs.root.getFile('log.txt', {}, function(fileEntry) {
+         // Get a File object representing the file,
+         // then use FileReader to read its contents.
+         fileEntry.file(function(file) {
+         var reader = new FileReader();
+
+         reader.onloadend = function(e) {
+         var txtArea = document.createElement('textarea');
+         txtArea.value = this.result;
+         document.body.appendChild(txtArea);
+         };
+
+         reader.readAsText(file);
+         }, errorHandler);
+
+  }, errorHandler);
+}
+window.requestFileSystem(window.TEMPORARY, 5*1024*1024 /*5MB*/, onInitFs, errorHandler);
+     </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Geolocation</h2>
+    <ul>
+        <li>More mobile oriented</li>
+        <li>Needs user acknowledgment</li>
+        <li>Provides location (GPS, IP, GSM,...) according to browser capabilities/network</li>
+        <li>Asynchronous (can take up some time)</li>
+    </ul>
+ <pre><code>
+function followUser(position) {
+     console.log("latitude :" + position.coords.latitude);
+     console.log("longitude :" + position.coords.longitude);
+     console.log("altitude :" + position.coords.altitude);
+     console.log("speed :" + position.coords.speed);
+}
+
+ // Watch user movements
+var follower = navigator.geolocation.watchPosition(followUser);
+
+// To stop watching: navigator.geolocation.clearWatch(follower);
+ </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Devices</h2>
+    <ul>
+    <li>Possibility to (mobile) device orientation and events</li>
+    <li>Follow orientation, acceleration and rotation data</li>
+    </ul>
+<pre><code>
+// Listen for the deviceorientation event and handle DeviceOrientationEvent object
+window.addEventListener('deviceorientation', devOrientHandler, false);
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>History stack</h2>
+    <ul>
+        <li>HTML5 provides many behind the ground operations/handling</li>
+        <li>but a Back in your browser will load the previous HTML page and quit the application</li>
+    </ul>
+    <ul>
+        <li>History lets you manipulate the browser history stack to bavigate back and forth in your application with the browser back/forward buttons</li>
+    </ul>
+<pre><code>
+// Check the length of the history stack
+console.log(history.length);
+// Send the user agent forward
+console.log(history.forward());
+// Send the user agent back
+console.log(history.back());
+
+// now update history stack
+history.pushState(data_related_to_event, name_to_show_in_history, url_to_show);
+
+// Keep me informed of history back actions
+window.addEventListener('popstate', function(event) {
+    console.log('popstate fired!');
+});
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Compile to Javascript....</h2>
+    <h3><a href="http://coffeescript.org/">CoffeeScript</a></h3>
+    <ul><li>Looks like Javascript, and supports embedded Javascript.</li>
+    </ul>
+    <h3><a href="http://www.dartlang.org/">Dart</a></h3>
+    <ul>
+        <li>New language from Google, supported in Chromium</li>
+        <li>More structure/typed</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Javascript generation</h2>
+    <ul>
+        <li>Use compilers to generate some Javascript from Javascript-like languages</li>
+        <li>Expects to provide better performances and better writing rules</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>CoffeeScript</h2>
+    <p>See example at http://coffeescript.org/</p>
+</section>
+
+
+<section class="slide">
+    <h2>Dart</h2>
+    <ul>
+        <li>example.dart</li>
+    </ul>
+<pre><code>
+import 'dart:html'
+void main() {
+ query("#ID").text = 'Hello world';
+}
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Frameworks MVC like</h2>
+    <h3>AngularJS</h3>
+    <h3>BackboneJS</h3>
+    <h3>Knockout</h3>
+    <h3>...</h3>
+</section>
+
+<section class="slide">
+    <h2>Frameworks</h2>
+    <ul>
+        <li>Add structure to the client side using MVC like patterns (like Symfony, Rails, Pyramid, ...)</li>
+        <li>Templating for views</li>
+        <li>More client-side internal routing with REST server communications</li>
+        <li>Limit page reloads</li>
+        <li>Automatic data binding (refresh) between views and models</li>
+        <li>Each framework has its way to manage binding and DOM manipulation</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>AngularJS example</h2>
+    <pre><code>
+&lt;div>
+&lt;label&gt;Name:&lt;/label&gt;
+// Attach value of the following input to the model variable named "yourName" in two-way binding
+// When the model change, value will be updated
+// When input value is modified, model will be updated too
+&lt;input type="text" ng-model="yourName" placeholder="Enter a name here"&gt;
+// Display the value of "yourName" from current scope
+&lt;h1&gt;Hello {{yourName}}!&lt;/h1&gt;
+&lt;/div&gt;
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>A different Javascript</h2>
+    <h3>asm - http://asmjs.org/spec/latest/</h3>
+    <h3>on desktop (TideSDK)</h3>
+    <h3>...</h3>
+</section>
+
+<section class="slide">
+    <h2>TideSDK</h2>
+    <ul>
+        <li>Create HTML+Javascript application, but running on the Desktop</li>
+        <li>Embeds browser engine like WebKit in the application</li>
+        <li>Adds a few API for pure desktop operations (not sandboxed)</li>
+        <li>Package the app and install it on Desktop</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Asm</h2>
+    <p>asm.js is a research project at Mozilla that aims to formally define the subset of JavaScript that compilers like Emscripten and Mandreel already generate (typed arrays as memory, etc.)</p>
+    <ul>
+        <li>C/C++    =>    LLVM    =>    Emscripten    =>    JavaScript</li>
+        <li>LLVM: compiler and toolchain technologies for code optimization, generates bytecode</li>
+        <li>Emscripten: LLVM-to-JavaScript compiler</li>
+        <li><a href="http://asmjs.org/spec/latest/">Specifications</a></li>
+        <li><a href="http://kripken.github.io/mloc_emscripten_talk">more...</a></li>
+    </ul>
+    <p>Code is just a subset of JavaScript</p>
+</section>
+
+<section class="slide">
+    <h2>Links</h2>
+    <ul>
+        <li><a href="http://www.html5rocks.com/">http://www.html5rocks.com/</a>: All you need is here! Some code examples presented here are extracted from this web site</li>
+        <li>
+            <a href="http://slides.html5rocks.com/">http://slides.html5rocks.com/</a>
+        </li>
+        <li>
+            <a href="http://diveintohtml5.info/">http://diveintohtml5.info/</a>
+        </li>
+        <li>
+            <a href="http://www.w3.org/TR/html51/">W3C</a>
+        </li>
+        <li><a href="http://www.w3schools.com/html/default.asp">http://www.w3schools.com/html/default.asp</a></li>
+
+    </ul>
+</section>
+
+<!-- End slides. -->
+
+
+<!-- Begin extension snippets. Add or remove as needed. -->
+
+<!-- deck.navigation snippet -->
+<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+<!-- deck.status snippet -->
+<p class="deck-status">
+	<span class="deck-status-current"></span>
+	/
+	<span class="deck-status-total"></span>
+</p>
+
+<!-- deck.goto snippet -->
+<form action="." method="get" class="goto-form">
+	<label for="goto-slide">Go to slide:</label>
+	<input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+	<datalist id="goto-datalist"></datalist>
+	<input type="submit" value="Go">
+</form>
+
+<!-- deck.hash snippet -->
+<a href="." title="Permalink to this slide" class="deck-permalink">#</a>
+
+<!-- End extension snippets. -->
+
+
+<!-- Required JS files. -->
+<script src="jquery-1.7.2.min.js"></script>
+<script src="core/deck.core.js"></script>
+
+<!-- Extension JS files. Add or remove as needed. -->
+<script src="core/deck.core.js"></script>
+<script src="extensions/hash/deck.hash.js"></script>
+<script src="extensions/menu/deck.menu.js"></script>
+<script src="extensions/goto/deck.goto.js"></script>
+<script src="extensions/status/deck.status.js"></script>
+<script src="extensions/navigation/deck.navigation.js"></script>
+<script src="extensions/scale/deck.scale.js"></script>
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script>
+	$(function() {
+		$.deck('.slide');
+	});
+</script>
+</body>
+</html>
