@@ -16,3 +16,5 @@ Exercices are mainly based on a sample TODO list managament program
 HTTP server (apache, ....)
 
 For server-side, nodejs and WebSocket-node: npm install websocket
+
+On windows, WAMP or Tinyweb (http://www.ritlabs.com/en/products/tinyweb/download.php)
