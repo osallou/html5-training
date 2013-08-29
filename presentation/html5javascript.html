@@ -95,6 +95,9 @@
         <li>Style applied on an element</li>
     </ul>
     <h3><i>console.log("...")</i> is your friend</h3>
+    <h3>Inspect</h3>
+    <p>In the console you can inspect an object i.e. see its methods and attributes</p>
+    <code>xhr = new XMLHttpRequest(); inspect(xhr);</code>
 </section>
 
 <section class="slide">
@@ -163,6 +166,34 @@ function add(a,b) {
 </section>
 
 <section class="slide">
+<h2>Inheritance</h2>
+<p>Javascrip support inheritance like in object programming</p>
+<p>Based on previous example we can create a MySuperObject</p>
+<p>See the call and apply methods to use parent methods.</p>
+<pre><code>
+function MySuperObject(name){
+  MyObject.apply(this,arguments); // Call the super constructor with input arguments
+}
+
+// define MySuperObject as a MyObject
+MySuperObject.prototype = new MyObject();
+// Not needed if constructor has not arguments
+MySuperObject.prototype.constructor = MySuperObject;
+
+// Redefine a method from parent
+MySuperObject.prototype.setWidth = function(x) { 
+  x = x+1;
+  // Here, we call the parent method on current instance
+  MyObject.prototype.setWidth.call(this,x);
+}
+// Add new methods not in parent
+MySuperObject.protoype.mynewfunction = function(x,y) { ... }
+
+
+</code></pre>
+</section>
+
+<section class="slide">
   <h2>Pure Javascript - DOM manipulation</h2>
   <ul>
   <li>Select/Add elements
@@ -197,6 +228,7 @@ document.getElementById("button").addEventListener("click", function(event){
     <ul>
         <li>One direction only: client-> server with question/answer mode</li>
         <li>Asynchronous callbacks</li>
+	<li>API: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest</li>
     </ul>
 <pre><code>
 var xhr = null;
@@ -227,6 +259,15 @@ xhr.open("GET", "handlingData.php?variable1=data1&variable2=data2", true);
 xhr.send(null);
 </code>
 </pre>
+</section>
+
+<section class="slide">
+<h2>Coding style</h2>
+<p>Good writing rules are available and necessary just like any other language</p>
+<ul>
+<li>http://www.jslint.com/</li>
+<li>http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml</li>
+</ul>
 </section>
 
 <section class="slide">
@@ -310,9 +351,38 @@ console.log(myinput.val());
     <p>Warning: URL should be in current domain or a server accepting cross-domain requests (see CORS). </p>
 </section>
 
+<section class="slide">
+<h2>Easy event handling</h2>
+<pre><code>
+&lt;button id="mybutton" type="button" class=".mybutton"&gt;hello&lt;/button&gt;
+&lt;script&gt;
+$(function() {
+  $( ".mybutton" ).click(function() {
+    alert("one click");
+});
+});
+&lt;/script&gt;
+<code></pre>
+<p>For dynamically added elements, the events will not be triggered. One need to add a listener to the object when adding it or to specify that the event is to be listened to current and future DOM elements. To do so:</p>
+<pre><code>
+$(document).on("click",".mybutton",function() {
+	alert("click");
+});
+
+</code></pre>
+</section>
 
 <section class="slide">
 <h2>Exercise 1</h2>
+</section>
+
+<section class="slide">
+<h2>JQuery UI</h2>
+<p>JQuery-ui provides widgets based on JQuery for your web pages design.</p>
+<p>JQuery mobile does the same for a mobile environment. However you need to take care to refresh the layout on dynamically added objects:
+<pre><code>
+$("#dynamicform").append(formdata).trigger("create");
+</code></pre>
 </section>
 
 <section class="slide">
@@ -449,7 +519,11 @@ sessionStorage["login"] = "myuser";
         <li>Used for Chat, push,...</li>
         <li>Should encode data for transfer (base64, json stringify....)</li>
         <li>Support binary transfer: ws.binaryType = "arraybuffer" or "blob"</li>
+	<li>Order is guaranteed</li>
     </ul>
+</section>
+<section class="slide">
+    <h2>Web sockets</h2>
         <pre><code>
 // connect to host:port on "route" /echo
 var ws = new WebSocket("ws://localhost:9000/","echo");
@@ -464,6 +538,7 @@ ws.onclose = function()
 // Send a message
 ws.send("a message");
         </code></pre>
+	<p>To not initialize workers in JQuery.</p>
 </section>
 
 <section class="slide">
@@ -660,6 +735,7 @@ ctx.drawImage(img,10,10);
     <ul>
         <li>You can ask the browser to be triggered on a framerate for animations in a canvas</li>
         <li>Browser will evaluate the best framerate</li>
+	<li>you request the browser to draw your animation at the next available opportunity, not at a predetermined interval</li>
     </ul>
 <pre><code>
 window.requestAnimFrame = (function(){
@@ -734,8 +810,10 @@ function handleDrop(e) {
 
 myobj = document.getElementById("mydraggable");
 myobj.addEventListener('dragstart', handleDragStart, false);
-myobj.addEventListener('drop', handleDrop, false);
 myobj.addEventListener('dragend', handleDragEnd, false);
+myotherobj = document.getElementById("mydropable"); 
+myotherobj.addEventListener('drop', handleDrop, false);
+
 </code></pre>
 </section>
 
@@ -747,6 +825,7 @@ myobj.addEventListener('dragend', handleDragEnd, false);
         <li>Support data transfer (clone or transfer)</li>
         <li>Load external or inline script</li>
     </ul>
+    <p>Workers communication with main page is done with messages (postMessage)</p>
 </section>
 <section class="slide">
     <h2>Workers (next)</h2>
@@ -777,6 +856,8 @@ self.addEventListener('message', function(e) {
     <h2>CORS (Cross-Origin Resource Sharing)</h2>
     <ul>
         <li>By default, XMLHTTPRequest are limited to the same domain, preventing a remote access to an other side in the background</li>
+	<li>CORS are needed for GET/PUT/POST methods and json type (not plain text)</li>
+	<li>This is managed with a preflight request (see next slide).</li>
         <li>CORS provides the possibility to communicate with cross-domains requests
         <ul>
             <li>To do so, server must add specific HTTP headers to OPTIONS message:
@@ -793,6 +874,56 @@ Access-Control-Allow-Credentials: true
         <li>If headers are not present or not matching, request will fail.</li>
         <li>JQuery ($.ajax, ...) will manage CORS, additional parameters are available.</li>
     </ul>
+</section>
+
+<section class="slide">
+<h2>CORS</h2>
+<p>Preflight is an additional request the XHR object makes to make sure it’s allowed to actually make the request with an OPTION request. By default, there’s no preflight.</p>
+<p>Setting custom headers on XHR requests triggers a preflight request.</p>
+<p>To add X-Requested-With header for preflight request</p>
+<pre><code>
+jQuery:
+$.ajax({
+     url: "http://your-url...",
+     headers: {'X-Requested-With': 'XMLHttpRequest'}
+}); </code></pre>
+</section>
+
+<section class="slide">
+<h2>CORS</h2>
+<p>Basic HTTP exchange</p>
+<pre><code>
+OPTIONS /somepath HTTP/1.1
+Host: myurl.com
+Access-Control-Request-Method: GET
+Origin: http://myserver.com
+Access-Control-Request-Headers: x-requested-with
+Server responds to OPTIONS request (no content served in this case).
+
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: X-Requested-With
+
+Client sends GET request as it has permission to do so:
+
+GET /somepath HTTP/1.1
+Host: myurl.com
+x-requested-with: XMLHttpRequest
+Server responds to GET request with content:
+
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: *
+Content-Length: 888
+</code></pre>
+</section>
+
+<section class="slide">
+<h2>CORS</h2>
+<p>It is possible to avoid CORS issues with JSON-P</p>
+<p> Requests for JSONP retrieve not JSON, but arbitrary JavaScript code. They are evaluated by the JavaScript interpreter, not parsed by a JSON parser. Native deployments of JSONP are subject to cross-site request forgery (CSRF or XSRF) attack</p>
+<p>A JSONP payload might look like this:</p>
+<pre><code>functionCall({"Name": "Foo", "Id": 1234, "Rank": 7});</code></pre>
+
 </section>
 
 <section class="slide">
@@ -989,6 +1120,7 @@ void main() {
     <h2>A different Javascript</h2>
     <h3>asm - http://asmjs.org/spec/latest/</h3>
     <h3>on desktop (TideSDK)</h3>
+    <h3>on mobile (Cordova)</h3>
     <h3>...</h3>
 </section>
 
@@ -1003,6 +1135,11 @@ void main() {
 </section>
 
 <section class="slide">
+    <h2>Apache Cordova</h2>
+    <p>This framework creates applications for Android and iOS with an HTML5 application</p>
+</section>
+
+<section class="slide">
     <h2>Asm</h2>
     <p>asm.js is a research project at Mozilla that aims to formally define the subset of JavaScript that compilers like Emscripten and Mandreel already generate (typed arrays as memory, etc.)</p>
     <ul>
@@ -1013,6 +1150,18 @@ void main() {
         <li><a href="http://kripken.github.io/mloc_emscripten_talk">more...</a></li>
     </ul>
     <p>Code is just a subset of JavaScript</p>
+</section>
+
+
+<section class="slide">
+    <h2>Testing</h2>
+<h3>Unit tests</h3>
+<p>Several frameworks available but Jasmine have some success.</p>
+<p>Jasmine is a behavior-driven development framework</p>
+<h3>Functional testing</h3>
+<p>Selenium helps you simulate clicks etc...</p>
+<h3>Load testing</h3>
+<p>JMeter is quite easy and powerfull to create simple or complex HTTP scenarios.</p>
 </section>
 
 <section class="slide">
