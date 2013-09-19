@@ -112,7 +112,7 @@
     	<li>event based</li>
 	<li>Supports object-like programming, eveything is an object and can be extended (prototype)</li>
 	<li>Data: loves JSON</li>
-    <li>Avoid time consuming operations that would block the page (single thread)</li>
+    <li>Avoid time consuming operations that would block the page (single thread) - TIP: code running time on an action < 100ms</li>
     </ul>
 </section>
 
@@ -142,6 +142,37 @@ function add(a,b) {
 </section>
 
 <section class="slide">
+<h2>Pure Javascript -variable scope</h2>
+<ul>
+<li>Variables in a script body are global.</li>
+<li>Variables declared in a function are local to the function if not declared in the global scope.</li>
+<li>If variable is redeclared in a function, it will be local to the function scope:</li>
+<li>Always prefer local scope to global scope for performance.</li>
+<li>Local functions see local variables</li>
+</ul>
+<pre><code>
+    var myglobalvar= "rr";
+
+    function my() {
+	var mylocalvar= 1;
+        // myglobalvar is visible, but this boots performance for a large number of variables
+        // myglobalvar is global, a_local_var is visible only inside the function
+        var a_local_var = myglobalvar;
+
+        $("#mydiv").click( function() {
+             // mylocalvar is visibile in this scope. The my() function scope is copied in this function.
+             var my_sub_var = mylocalvar;
+
+        });
+
+    }
+
+
+</code></pre>
+<p>Special case: the <bold>this</bold> element is not copied in sub functions, if needed, it must be first copied in a local scope variable.</p>
+</section>
+
+<section class="slide">
 <h2>Pure Javascript - Objects</h2>
 <div><i>objectname</i>.prototype.<i>propertyname</i> = <i>expression</i> ; </div>
 <pre><code>
@@ -167,7 +198,7 @@ function add(a,b) {
 
 <section class="slide">
 <h2>Inheritance</h2>
-<p>Javascrip support inheritance like in object programming</p>
+<p>Javascript supports inheritance like in object programming</p>
 <p>Based on previous example we can create a MySuperObject</p>
 <p>See the call and apply methods to use parent methods.</p>
 <pre><code>
@@ -222,6 +253,30 @@ document.getElementById("button").addEventListener("click", function(event){
   </ul>
 </section>
 
+<section class="slide">
+<h2>DOM in the browser / performance</h2>
+<p>The browser manages 2 structures:</p>
+<ul>
+<li>the DOM representing all the elements of the page</li>
+<li>the graphical structure where only visible elements are present</li>
+</ul>
+<p>The update of the dom will queue modifications of the graphical structure if needed. The browser will apply a set of updates from this queue.</p>
+<p>Accessing some visual representation properties of an element will flush the queue and force a refresh, this can impact performance.</p>
+<p>It may be preferable to create an empty HTML element (or clone one, or insert HTML string representation), apply modifications then (re)insert the element in the page rather than modifying the element directly to limit the graphical structure recalculations.</p>
+<p>This will provider better user experience when inserting many rows in a table for example, but also reduce calculation time during which interface is blocked (remember, it is mono thread).</p>
+<p>Hiding an object and modifying it does not impact the graphical structure</p>
+</section>
+
+<section class="slide">
+<h2>Events</h2>
+<p>Events are propagated all along the DOM from the element up to the body element.</p>
+<p>It is possible to reverse the propagation.</p>
+<p>To manage events, too main functions (e is my event):</p>
+<ul>
+<li>e.stopPropagation : stop the propagation of the event (prevent a global listener to be triggered)</li>
+<li>e.preventDefault : prevent default behavior of the element (form submission for a button, redirection on a <bold>a</bold> element)</li>
+</ul>
+</section>
 
 <section class="slide">
 <h2>Pure Javascript - Network</h2>
