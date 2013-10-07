@@ -73,14 +73,13 @@
         console.log("we have switched to online mode");
         //Get all elements from storage
         // Send them to remote server
-        elts
         for(var i=0, len=localStorage.length; i<len; i++) {
             var key = localStorage.key(i);
-            var value = JSON.parse(localStorage[key]);
+            var value = JSON.parse(localStorage[i]);
             console.log("I would send todo to server "+key);
         }
         // Delete them
-        localstorage.clear();
+        localStorage.clear();
 
     }
     function isOffline() {

@@ -633,7 +633,7 @@ $("#mybutton").'click'(function() {
         <li>Before communication, both pages must be loaded and initialized</li>
     </ul>
     In this example window A wants to send a message to window B, from same origin.
-    <ul><li>Window A, loaded from http://mydomain/input.html
+    <ul><li>Window A, loaded from http://myinputdomain/input.html
 <pre><code>
 
 &lt;script&gt;
@@ -656,7 +656,7 @@ myPopup.postMessage('message','http://mydomain/'); // I specify here the origin 
 ...
 function handleMessage(e) {
       // check the origin of message for security
-      if (e.origin == "http://mydomain") {
+      if (e.origin == "http://myinputdomain") {
          var consoleOutput=document.getElementById("consoleOutput");
          // Display message
          consoleOutput.textContent+= e.origin + ": " + e.data + "\n";
@@ -828,7 +828,7 @@ window.requestAnimFrame = (function(){
     <h2>Drag and drop</h2>
     <ul>
         <li>Support for native drag and drop</li>
-        <li>Drag and drop HTML elements</li>
+        <li>Drag and drop HTMl elements</li>
         <li>Drag and drop files(images...)</li>
         <li>Drag from Desktop (managing e.dataTransfer.files on drop target)</li>
     </ul>
@@ -1077,7 +1077,7 @@ window.addEventListener('deviceorientation', devOrientHandler, false);
         <li>but a Back in your browser will load the previous HTML page and quit the application</li>
     </ul>
     <ul>
-        <li>History lets you manipulate the browser history stack to navigate back and forth in your application with the browser back/forward buttons</li>
+        <li>History lets you manipulate the browser history stack to bavigate back and forth in your application with the browser back/forward buttons</li>
     </ul>
 <pre><code>
 // Check the length of the history stack
@@ -1216,7 +1216,7 @@ void main() {
 <h3>Functional testing</h3>
 <p>Selenium helps you simulate clicks etc...</p>
 <h3>Load testing</h3>
-<p>JMeter is quite easy and powerful to create simple or complex HTTP scenarios.</p>
+<p>JMeter is quite easy and powerfull to create simple or complex HTTP scenarios.</p>
 </section>
 
 <section class="slide">
